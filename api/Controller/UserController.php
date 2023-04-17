@@ -1,5 +1,6 @@
 <?php
 
+require_once '../utils/Response.php';
 require_once '../Connection.php';
 class UserController
 {
@@ -22,16 +23,20 @@ class UserController
     {
         $statement = "SELECT user_id, username, email, password  FROM User where user_id = $userId;";
         $res = self::$db->query($statement);
-        $myArray = array();
         while($row = $res->fetch_assoc()) {
             $myArray[] = $row;
         }
-        return json_encode($myArray);
+        Response::ok("User found", json_encode($myArray))->send();
     }
 
     public function getAllUsers()
     {
-        return "getAllUsers";
+        $statement = "SELECT user_id, username, email, password  FROM User;";
+        $res = self::$db->query($statement);
+        while($row = $res->fetch_assoc()) {
+            $myArray[] = $row;
+        }
+        Response::ok("User found", json_encode($myArray))->send();
     }
 
     public function createUserFromRequest()

@@ -8,7 +8,7 @@
 
     switch ($requestType) {
         case 'GET':
-            if ($id) {
+            if ($id != null) {
                 var_dump($id);
                 $response = $controller->getUser($id);
             } else {
