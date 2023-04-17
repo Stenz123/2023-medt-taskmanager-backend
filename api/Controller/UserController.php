@@ -1,5 +1,6 @@
 <?php
 
+use util\HttpErrorCodes;
 require_once '../utils/Response.php';
 require_once '../Connection.php';
 class UserController
@@ -26,7 +27,7 @@ class UserController
         while($row = $res->fetch_assoc()) {
             $myArray[] = $row;
         }
-        Response::ok("User found", json_encode($myArray))->send();
+        Response::ok("User found", $myArray)->send();
     }
 
     public function getAllUsers()
@@ -36,24 +37,32 @@ class UserController
         while($row = $res->fetch_assoc()) {
             $myArray[] = $row;
         }
-        Response::ok("User found", json_encode($myArray))->send();
+        Response::ok("User found", $myArray)->send();
     }
 
-    public function createUserFromRequest()
+    public function createUserFromRequest($userName, $email, $password)
     {
-
-    }
-
-    public function updateUserFromRequest($userId)
-    {
+        if ($userName == null || $email == null || $password == null) {
+            Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
+        }
+        $statement = "INSERT INTO User (username, email, password) VALUES ('$userName', '$email', '$password');";
+        if(self::$db->query($statement)){
+            Response::created("User created")->send();
+        } else {
+            Response::error(HttpErrorCodes::HTTP_INTERNAL_SERVER_ERROR, "User not created")->send();
+        }
     }
 
     public function deleteUser($userId)
     {
+        if ($userId == null) {
+            Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
+        }
+        $statement = "DELETE FROM User WHERE user_id = $userId;";
+        if(self::$db->query($statement)){
+            Response::ok("User deleted")->send();
+        } else {
+            Response::error(HttpErrorCodes::HTTP_INTERNAL_SERVER_ERROR, "User not deleted")->send();
+        }
     }
-
-    public function notFoundResponse()
-    {
-    }
-
 }

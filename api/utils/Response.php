@@ -7,8 +7,6 @@ require_once 'HttpErrorCodes.php';
 
 class Response
 {
-    private int $httpCode;
-    private string $message;
     private mixed $data;
 
     public function __construct(

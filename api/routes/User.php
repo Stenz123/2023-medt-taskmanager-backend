@@ -1,5 +1,8 @@
 <?php
-    require_once '../Controller/UserController.php';
+
+use util\HttpErrorCodes;
+
+require_once '../Controller/UserController.php';
 
     $controller = UserController::getInstance();
 
@@ -9,23 +12,19 @@
     switch ($requestType) {
         case 'GET':
             if ($id != null) {
-                var_dump($id);
-                $response = $controller->getUser($id);
+                $controller->getUser($id);
             } else {
-                $response = $controller->getAllUsers();
+                $controller->getAllUsers();
             };
             break;
         case 'POST':
-            $response = $controller->createUserFromRequest();
-            break;
-        case 'PUT':
-            $response = $controller->updateUserFromRequest($id);
+            $controller->createUserFromRequest($_POST['username'], $_POST['email'], $_POST['password']);
             break;
         case 'DELETE':
-            $response = $controller->deleteUser($id);
-            break;
-        default:
-            $response = $controller->notFoundResponse();
+            if ($id != null) {
+                $controller->deleteUser($id);
+            } else {
+                Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
+            };
             break;
     }
-    echo $response;
