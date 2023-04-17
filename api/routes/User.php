@@ -9,6 +9,7 @@
     switch ($requestType) {
         case 'GET':
             if ($id) {
+                var_dump($id);
                 $response = $controller->getUser($id);
             } else {
                 $response = $controller->getAllUsers();
@@ -27,6 +28,4 @@
             $response = $controller->notFoundResponse();
             break;
     }
-
-    $lkm = $controller->  getUser(10    );
-    echo $lkm;
+    echo $response;
