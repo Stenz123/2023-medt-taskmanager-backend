@@ -11,7 +11,9 @@ class Connection{
         $pass = $env['DB_PASS'];
         if (self::$dbConnection == null){
             try {
-                self::$dbConnection = new mysqli($host, $user, $pass, $db);
+                if(!self::$dbConnection = new mysqli($host, $user, $pass, $db)){
+                    throw new Exception("Connection failed: " . self::$dbConnection->connect_error);
+                }
             } catch (Exception $e) {
                 echo "Connection failed: " . $e->getMessage();
             }

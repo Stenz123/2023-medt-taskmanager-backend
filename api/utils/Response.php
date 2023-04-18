@@ -26,7 +26,7 @@ class Response
         header('Content-Type: application/json');
         http_response_code($this->httpCode);
         echo json_encode(array(
-            'success' => $this->httpCode == HttpErrorCodes::HTTP_OK,
+            'success' => $this->httpCode == HttpErrorCodes::HTTP_OK || $this->httpCode == HttpErrorCodes::HTTP_CREATED,
             'message' => $this->message,
             'data' => $this->data
         ));
