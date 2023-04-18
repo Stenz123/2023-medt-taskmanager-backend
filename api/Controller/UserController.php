@@ -47,6 +47,8 @@ class UserController
         }
         $statement = "INSERT INTO User (username, email, password) VALUES ('$userName', '$email', '$password');";
         if(self::$db->query($statement)){
+            $data = array();
+
             Response::created("User created")->send();
         } else {
             Response::error(HttpErrorCodes::HTTP_INTERNAL_SERVER_ERROR, "User not created")->send();
