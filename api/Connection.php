@@ -3,11 +3,12 @@ class Connection{
     private static $dbConnection = null;
     public static function getConnection()
     {
-        $host = '127.0.0.1';
-        $port = '3306';
-        $db   = 'taskManager';
-        $user = 'taskManager';
-        $pass = 'passme';
+        $env = parse_ini_file(__DIR__ . '/../.env');
+
+        $host = $env['DB_HOST'];
+        $db   = $env['DB_NAME'];
+        $user = $env['DB_USER'];
+        $pass = $env['DB_PASS'];
         if (self::$dbConnection == null){
             try {
                 self::$dbConnection = new mysqli($host, $user, $pass, $db);
