@@ -80,7 +80,7 @@ public static function getInstance(): UserController
         }
     }
 
-    public function getUserByEmail($email, $responds)
+    public function getUserByEmail($email)
     {
         $statement = "SELECT user_id, username, email, password  FROM User where email = '$email';";
         $res = self::$db->query($statement);
@@ -88,14 +88,6 @@ public static function getInstance(): UserController
         while ($row = $res->fetch_assoc()) {
             $myArray[] = $row;
         }
-        if ($responds) {
-            if (empty($myArray)) {
-                Response::error(HttpErrorCodes::HTTP_NOT_FOUND, "User not found")->send();
-            }
-            Response::ok("User found", $myArray)->send();
-        }else
-        {
-            return $myArray;
-        }
+        return $myArray;
     }
 }

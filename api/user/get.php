@@ -24,5 +24,5 @@ require_once '../Controller/UserController.php';
     if ($id != null) {
         $controller->getUser($id);
     } else {
-        $controller->getAllUsers();
+        Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
     };

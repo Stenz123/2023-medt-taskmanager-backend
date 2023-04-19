@@ -14,7 +14,7 @@ $password = $_POST['password'];
 if ($email == null || $password == null) {
     Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
 }
-$dbUser = UserController::getInstance()->getUserByEmail($email, false)[0];
+$dbUser = UserController::getInstance()->getUserByEmail($email)[0];
 
 if ($dbUser == null) {
     Response::error(HttpErrorCodes::HTTP_UNAUTHORIZED, "User not found")->send();
