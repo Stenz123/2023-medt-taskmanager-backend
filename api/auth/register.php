@@ -6,6 +6,9 @@ require_once '../Controller/UserController.php';
 
 session_start();
 
+//api works with this line when using Web but not with Postman
+$_POST = json_decode(file_get_contents('php://input'), true);
+
 function validateEmail($email) : bool {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
@@ -20,7 +23,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 if (!validateEmail($email)) {
-    Response::error(HttpErrorCodes::HTTP_UNAUTHORIZED, "Invalid email")->send();
+    Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Invalid email")->send();
 }
 
 if (!validatePassword($password)) {

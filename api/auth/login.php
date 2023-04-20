@@ -7,13 +7,19 @@ require_once '../Controller/UserController.php';
 
 session_start();
 
+//api works with this line when using Web but not with Postman
+$_POST = json_decode(file_get_contents('php://input'), true);
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
 if ($email == null || $password == null) {
+    echo "Missing parameters";
+    echo $email;
+    echo $password;
     Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
 }
+
 $dbUser = UserController::getInstance()->getUserByEmail($email)[0];
 
 if ($dbUser == null) {
