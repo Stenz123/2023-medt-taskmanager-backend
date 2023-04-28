@@ -6,7 +6,6 @@ class BoardController{
 
 
     private static ?mysqli $db = null;
-
     private static ?BoardController $instance = null;
 
     public static function getInstance(): BoardController
@@ -81,6 +80,9 @@ class BoardController{
             while ($row = $res->fetch_assoc()) {
                 $myArray[] = $row;
             }
+            foreach ($myArray as $key => $value) {
+                $myArray[$key]['B_USERS'] = $this->getUsersFromBoard($value['B_ID']);
+            }
             Response::ok("Boards found", $myArray)->send();
         } else {
             Response::error(HttpErrorCodes::HTTP_INTERNAL_SERVER_ERROR, "Boards not found")->send();
@@ -95,9 +97,7 @@ class BoardController{
             while ($row = $res->fetch_assoc()) {
                 $myArray[] = $row;
             }
-            Response::ok("Users found", $myArray)->send();
-        } else {
-            Response::error(HttpErrorCodes::HTTP_INTERNAL_SERVER_ERROR, "Users not found")->send();
+            return $myArray;
         }
     }
 }
