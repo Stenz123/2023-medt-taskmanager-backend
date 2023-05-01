@@ -100,4 +100,18 @@ class BoardController{
             return $myArray;
         }
     }
+
+    public function deleteBoard($user_id, $board_id)
+    {
+        if ($user_id == null || $board_id == null) {
+            Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
+        }
+
+        $statement = "DELETE FROM Board WHERE B_ID = $board_id AND B_OWNER = $user_id";
+        if (self::$db->query($statement)) {
+            Response::ok("Board deleted")->send();
+        } else {
+            Response::error(HttpErrorCodes::HTTP_INTERNAL_SERVER_ERROR, "Board not deleted")->send();
+        }
+    }
 }

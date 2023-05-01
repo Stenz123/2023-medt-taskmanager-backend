@@ -6,10 +6,10 @@ require_once '../Controller/BoardController.php';
 
     session_start();
 
-//$_POST = json_decode(file_get_contents('php://input'), true);
+$_POST = json_decode(file_get_contents('php://input'), true);
 
 
-if(!isset($_SESSION['user'])) {
+    if(!isset($_SESSION['user'])) {
         Response::error(HttpErrorCodes::HTTP_UNAUTHORIZED, "You are not logged in")->send();
     }
 
@@ -27,6 +27,7 @@ if(!isset($_SESSION['user'])) {
     $b_title = $_POST['title'];
     $id = $user['user_id'];
     $b_sprintLen = $_POST['sprintlen'];
+
 
     $controller->createBoardFromRequest($b_title, $id, $b_sprintLen);
 
