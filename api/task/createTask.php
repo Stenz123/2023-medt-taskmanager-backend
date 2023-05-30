@@ -2,11 +2,11 @@
 
 use util\HttpErrorCodes;
 
-require_once '../Controller/BoardController.php';
+require_once '../Controller/TaskController.php';
 
 session_start();
 
-$_POST = json_decode(file_get_contents('php://input'), true);
+//$_POST = json_decode(file_get_contents('php://input'), true);
 
 
 if(!isset($_SESSION['user'])) {
@@ -25,9 +25,7 @@ if ($requestType != 'POST') {
 }
 
 $b_title = $_POST['title'];
-$id = $user['user_id'];
 $b_description = $_POST['description'];
 $b_board_id = $_POST['board_id'];
 
-$controller->createTask($b_title, $id, $b_description, $b_board_id);
-
+$controller->createTask($b_title, $b_description, $b_board_id);

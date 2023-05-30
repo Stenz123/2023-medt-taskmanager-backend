@@ -23,13 +23,13 @@ class TaskController
         self::$db = Connection::getInstance();
     }
 
-    public function createTask($b_title, $id, $b_description, $b_board_id)
+    public function createTask($b_title, $b_description, $b_board_id)
     {
-        if ($b_title == null || $id == null || $b_description == null) {
+        if ($b_title == null  || $b_description == null) {
             Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
         }
 
-        $statement = "INSERT INTO Task (title, description, column_id, board_id) VALUES ('$b_title', $b_description, 0, $b_board_id);";
+        $statement = "INSERT INTO Task (title, description, column_id, board_id) VALUES ('$b_title','$b_description', 0, $b_board_id);";
         if (self::$db->query($statement)) {
             Response::created("Task created")->send();
         } else {
