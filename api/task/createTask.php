@@ -6,19 +6,11 @@ require_once '../Controller/TaskController.php';
 
 session_start();
 
-//$_POST = json_decode(file_get_contents('php://input'), true);
-
-
-if(!isset($_SESSION['user'])) {
-    Response::error(HttpErrorCodes::HTTP_UNAUTHORIZED, "You are not logged in")->send();
-}
-
-$user = $_SESSION['user'];
+$_POST = json_decode(file_get_contents('php://input'), true);
 
 $controller = TaskController::getInstance();
 
 $requestType = $_SERVER['REQUEST_METHOD'];
-$id = $user['user_id'];
 
 if ($requestType != 'POST') {
     Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Invalid request type")->send();
@@ -26,6 +18,6 @@ if ($requestType != 'POST') {
 
 $b_title = $_POST['title'];
 $b_description = $_POST['description'];
-$b_board_id = $_POST['board_id'];
+$b_board_id = $_POST['boardId'];
 
 $controller->createTask($b_title, $b_description, $b_board_id);
