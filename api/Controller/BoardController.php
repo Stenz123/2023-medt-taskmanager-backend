@@ -45,7 +45,8 @@ class BoardController{
             Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Missing parameters")->send();
         }
 
-        $statement = "INSERT INTO Team (user_id, board_id) VALUES ($user, $boardId);";
+        $statement = "INSERT INTO Team (user_id, board_id) VALUES ((select user_id from User where email = '$user' LIMIT 1), $boardId);";
+        //$statement = "SELECT user_id from User where username = '$user' LIMIT 1";
         if (self::$db->query($statement)) {
             Response::created("User added to board")->send();
         } else {

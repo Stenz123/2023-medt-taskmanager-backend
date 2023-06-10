@@ -6,7 +6,7 @@
 
     session_start();
 
-    //$_POST = json_decode(file_get_contents('php://input'), true);
+    $_POST = json_decode(file_get_contents('php://input'), true);
 
 
     if(!isset($_SESSION['user'])) {
@@ -24,11 +24,11 @@
         Response::error(HttpErrorCodes::HTTP_BAD_REQUEST, "Invalid request type")->send();
     }
 
-    $userid = $_POST['userid'];
-    $boardid = $_POST['boardid'];
+    $username = $_POST['userId'];
+    $boardid = $_POST['boardId'];
 
     if ($controller->isAdminOfBoard($id, $boardid)) {
-        $controller->addUser($userid, $boardid);
+        $controller->addUser($username, $boardid);
     } else {
         Response::error(HttpErrorCodes::HTTP_UNAUTHORIZED, "You are not the owner of this board")->send();
     }
