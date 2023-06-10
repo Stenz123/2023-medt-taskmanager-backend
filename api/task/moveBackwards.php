@@ -8,11 +8,6 @@ session_start();
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-
-if(!isset($_SESSION['user'])) {
-    Response::error(HttpErrorCodes::HTTP_UNAUTHORIZED, "You are not logged in")->send();
-}
-
 $user = $_SESSION['user'];
 
 $controller = TaskController::getInstance();
